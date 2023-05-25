@@ -13,11 +13,35 @@ namespace SmartHome_MVC.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
             return View();
         }
 
+        public IActionResult Rooms()
+        {
+            return View();
+        }
+        public IActionResult Devices()
+        {
+            return View();
+        }
+        public IActionResult Members()
+        {
+            return View();
+        }
+        public IActionResult Security()
+        {
+            return View();
+        }
+        public IActionResult Trends()
+        {
+            return View();
+        }
+        public IActionResult Settings()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
