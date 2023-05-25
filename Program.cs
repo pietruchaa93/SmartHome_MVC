@@ -1,3 +1,7 @@
+using Microsoft.Extensions.FileProviders;
+using SmartHome_Database;
+using SmartHome_MVC;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,12 +20,18 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+var database = new SmartHomeDbContext();
+database.Database.EnsureCreated();
+DatabaseLocator.Database = database;
+
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
 app.Run();

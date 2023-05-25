@@ -6,4 +6,31 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Coravel" Version="4.2.1" />
+    <PackageReference Include="DotNetty.Common" Version="0.7.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.5" />
+    <PackageReference Include="NDbUnit.SqlLite" Version="1.6.8" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\Images\" />
+    <Folder Include="Prototype_HTML\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\home-automation.png" />
+    <None Include="wwwroot\Images\smart-home.png" />
+    <None Include="wwwroot\Images\smart-house %281%29.png" />
+    <None Include="wwwroot\Images\smart-house.png" />
+    <None Include="wwwroot\Images\_dc0ac34a-fa29-48b1-9395-34faea404736.jpg" />
+    <None Include="wwwroot\Images\_ffc64168-a022-4371-b839-d8abea5d697f.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHome_Database\SmartHome_Database.csproj" />
+  </ItemGroup>
+
 </Project>

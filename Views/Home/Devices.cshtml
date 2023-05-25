@@ -1,0 +1,46 @@
+﻿
+
+@{
+    ViewData["Title"] = "Devices";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Devices available</h1>
+
+</div>
+
+<div>
+
+
+<img src="@Url.Content("~/Images/arduino_logo.png")" width="10%" height="10%" />
+<p>
+
+</p>
+
+
+@model SmartHome_MVC.Models.PortCOMS 
+@using (Html.BeginForm("Devices", "Home", FormMethod.Post))
+{
+    <label for="portCOM">Choose port COM:</label>
+    <select name="portCOM" id="portCOM">
+        @foreach (var port in Model.AvailablePorts)
+        {
+            <option value="@port">@port</option>
+        }
+    </select>
+
+    <input type="submit" value="Send" />
+
+    <br /><br />
+
+    <p>Selected port: @Model.portCOM</p>
+}
+
+
+
+
+
+
+</div>
+
