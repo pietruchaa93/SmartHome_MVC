@@ -5,10 +5,9 @@ using SmartHome_Database;
 //using SmartHome_MVC.Helpers;
 using SmartHome_MVC.Models;
 using System.Diagnostics;
+using SmartHome_MVC.App_Start;
 using SmartHome_MVC;
-using Microsoft.Extensions.Logging;
-
-
+using SmartHome_Database.Enities;
 
 namespace SmartHome_MVC
 {
@@ -57,7 +56,7 @@ namespace SmartHome_MVC
                 int id = lastSave.Id;
                 model.viewPortCOMS.portCOM = lastSave.portCOM;
             }
-           
+
 
             return View(model);
 
@@ -79,6 +78,17 @@ namespace SmartHome_MVC
 
             return View(model);
 
+        }
+
+        public IActionResult GetCurrentValues()
+        {
+            var dbContext = new SmartHomeDbContext(); // My DBContext
+
+            var lastValue = dbContext.ReadValuesArduino
+                .OrderByDescending(x => x.Id)
+                .FirstOrDefault();
+
+            return Json(lastValue);
         }
 
 

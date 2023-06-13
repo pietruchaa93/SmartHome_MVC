@@ -35,17 +35,39 @@
     <br /><br />
 
     <p>Selected port: @Model.viewPortCOMS.portCOM</p>
+      <br /><br />
+      <br /><br />
 
-   
-        <br /><br />
-        <p><b>Current Values on Arduino:</b></p>
-        <p>Temperature: @(Model.viewReadValues.Temperature == null ? "" : Model.viewReadValues.Temperature)</p>
-        <p>Button 1: @(Model.viewReadValues.Button1 == null ? "" : Model.viewReadValues.Button1)</p>
-    <p>Button 2: @(Model.viewReadValues.Button2 == null ? "" : Model.viewReadValues.Button2)</p>
-    <p>Value Analog: @(Model.viewReadValues.Analog == null ? "" : Model.viewReadValues.Analog)</p>
+
+   <p><b>Current Values on Arduino:</b></p>
+<p>Temperature: <span id="temperature"></span></p>
+<p>Button 1: <span id="button1"></span></p>
+<p>Button 2: <span id="button2"></span></p>
+<p>Value Analog: <span id="analog"></span></p>
  
 }
 
 
 </div>
 
+
+
+<!-- Code JavaScript -->
+
+<script>
+    setInterval(function () {
+        $.ajax({
+            url: '@Url.Action("GetCurrentValues", "Home")',
+            type: 'GET',
+            success: function (data) {
+                $('#temperature').text(data.temperature || '');
+                $('#button1').text(data.button1 || '0');
+                $('#button2').text(data.button2 || '0');
+                $('#analog').text(data.analog || '');
+            },
+            error: function () {
+                // Handle error
+            }
+        });
+    }, 1000);
+</script>
