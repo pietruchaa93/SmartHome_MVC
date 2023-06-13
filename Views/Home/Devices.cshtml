@@ -19,12 +19,12 @@
 </p>
 
 
-@model SmartHome_MVC.Models.PortCOMS 
+@model DevicesViewModel 
 @using (Html.BeginForm("Devices", "Home", FormMethod.Post))
 {
     <label for="portCOM">Choose port COM:</label>
-    <select name="portCOM" id="portCOM">
-        @foreach (var port in Model.AvailablePorts)
+    <select name="viewPortCOMS.portCOM" id="portCOM">
+        @foreach (var port in Model.viewPortCOMS.AvailablePorts)
         {
             <option value="@port">@port</option>
         }
@@ -34,12 +34,17 @@
 
     <br /><br />
 
-    <p>Selected port: @Model.portCOM</p>
+    <p>Selected port: @Model.viewPortCOMS.portCOM</p>
+
+   
+        <br /><br />
+        <p><b>Current Values on Arduino:</b></p>
+        <p>Temperature: @(Model.viewReadValues.Temperature == null ? "" : Model.viewReadValues.Temperature)</p>
+        <p>Button 1: @(Model.viewReadValues.Button1 == null ? "" : Model.viewReadValues.Button1)</p>
+    <p>Button 2: @(Model.viewReadValues.Button2 == null ? "" : Model.viewReadValues.Button2)</p>
+    <p>Value Analog: @(Model.viewReadValues.Analog == null ? "" : Model.viewReadValues.Analog)</p>
+ 
 }
-
-
-
-
 
 
 </div>

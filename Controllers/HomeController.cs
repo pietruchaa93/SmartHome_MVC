@@ -5,17 +5,23 @@ using SmartHome_Database;
 //using SmartHome_MVC.Helpers;
 using SmartHome_MVC.Models;
 using System.Diagnostics;
+using SmartHome_MVC;
+using Microsoft.Extensions.Logging;
 
 
-namespace SmartHome_MVC.Controllers
+
+namespace SmartHome_MVC
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SerialPortService _serialPortService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, SerialPortService serialPortService)
         {
             _logger = logger;
+            _serialPortService = serialPortService;
+
         }
 
         public IActionResult Dashboard()
@@ -23,7 +29,7 @@ namespace SmartHome_MVC.Controllers
 
             return View();
         }
-       
+
 
         public IActionResult Rooms()
         {
@@ -34,8 +40,8 @@ namespace SmartHome_MVC.Controllers
         [HttpGet]
         public IActionResult Devices()
         {
-            SmartHome_MVC.Models.PortCOMS model = new SmartHome_MVC.Models.PortCOMS();
-            model.AvailablePorts = new List<string> { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8" };
+            PortCOMS existingPortCOMS = new PortCOMS();
+            DevicesViewModel model = new DevicesViewModel();
 
             var dbContext = new SmartHomeDbContext(); // My DbContext
 
@@ -49,33 +55,32 @@ namespace SmartHome_MVC.Controllers
             {
                 // Use last save as needed
                 int id = lastSave.Id;
-                model.portCOM = lastSave.portCOM;
-
+                model.viewPortCOMS.portCOM = lastSave.portCOM;
             }
+           
 
             return View(model);
 
         }
 
         [HttpPost]
-        public IActionResult Devices(SmartHome_MVC.Models.PortCOMS model)
+        public IActionResult Devices(DevicesViewModel model)
         {
 
-            // In case of an invalid model, you can reinitialize the model and pass it to the view
-            model.AvailablePorts = new List<string> { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8" };
+            var wselectedCOM = model.viewPortCOMS.portCOM;
 
-                var wselectedCOM = model.portCOM;
-                DatabaseLocator.Database.selectportCOM.Add(new SelectedPort
-                {
-                    portCOM = wselectedCOM,
-                });
-                DatabaseLocator.Database.SaveChanges();
+            DatabaseLocator.Database.selectportCOM.Add(new SelectedPort
+            {
+                portCOM = wselectedCOM,
+            });
+            DatabaseLocator.Database.SaveChanges();
 
-                return View(model);
-            
+            _serialPortService.StartAsync(CancellationToken.None);
+
+            return View(model);
+
         }
 
-        
 
         public IActionResult Members()
         {

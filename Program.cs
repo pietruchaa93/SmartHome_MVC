@@ -1,13 +1,19 @@
-using Microsoft.Extensions.FileProviders;
 using SmartHome_Database;
 using SmartHome_MVC;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
+
+builder.Services.AddSingleton<SerialPortService>(); //My service to hosted communication with Serial Port
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

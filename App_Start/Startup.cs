@@ -1,10 +1,9 @@
 ﻿using Coravel;
-using Microsoft.AspNetCore.Http;
-using SmartHome_Database;
+
 
 namespace SmartHome_MVC.App_Start
 {
-    
+
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
@@ -14,8 +13,11 @@ namespace SmartHome_MVC.App_Start
             // ...
             services.AddSession();
 
+            //services.AddHostedService<SerialPortService>();
+            //services.AddSingleton<IHostedService, SerialPortService>();
+            services.AddSingleton<SerialPortService>();
 
-            
+
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -28,7 +30,7 @@ namespace SmartHome_MVC.App_Start
                 // Konfiguracje endpointów...
             });
 
-            
+
 
             // Inne konfiguracje
         }
