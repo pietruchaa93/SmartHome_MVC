@@ -3,17 +3,37 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Dashboard</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Dashboard</h1> 
 
 </div>
 
 <div>
+    <br />
+     <br />
+    <p><b>Weather for Bydgoszcz downloaded from openweathermap.org:</b></p>
 
-    Obrazek:
-    !!!!!
-    <img src="@Url.Content("~/Images/smart-home.png")" />
+<p>Temperature: <span id="temperature">@ViewBag.Temperature</span> &deg;C</p>
+<p>Humidity: <span id="humidity">@ViewBag.Humidity</span> %</p>
    
-
    
     </div>
+
+
+    <script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $.ajax({
+                url: '@Url.Action("GetCurrentValues", "Home")', // Adres URL kontrolera akcji
+                type: 'GET',
+                success: function (data) {
+                    // Zaktualizuj dane na stronie
+                    $('#temperature').text(data.Temperature + ' °C');
+                    $('#humidity').text(data.Humidity + ' %');
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }, 1000); // Odświeżanie co sekundę (1000 ms)
+    });
+</script>

@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SmartHome_Database;
-//using SmartHome_MVC.Helpers;
 using SmartHome_MVC.Models;
 using System.Diagnostics;
-using SmartHome_MVC.App_Start;
-using SmartHome_MVC;
-using SmartHome_Database.Enities;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace SmartHome_MVC
 {
@@ -15,16 +11,28 @@ namespace SmartHome_MVC
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SerialPortService _serialPortService;
+        private readonly WeatherService weatherService;
+        private readonly DevicesManager _deviceManager;
+
 
         public HomeController(ILogger<HomeController> logger, SerialPortService serialPortService)
         {
             _logger = logger;
             _serialPortService = serialPortService;
 
+            string apiKey = "b78914adc769484c70194fc36745f561";
+            weatherService = new WeatherService(apiKey);
+
+            _deviceManager = new DevicesManager();
         }
 
         public IActionResult Dashboard()
         {
+            string city = "Bydgoszcz";
+            WeatherData weatherData = weatherService.GetWeather(city);
+
+            ViewBag.Temperature = weatherData.Temperature;
+            ViewBag.Humidity = weatherData.Humidity;
 
             return View();
         }
@@ -39,45 +47,21 @@ namespace SmartHome_MVC
         [HttpGet]
         public IActionResult Devices()
         {
-            PortCOMS existingPortCOMS = new PortCOMS();
             DevicesViewModel model = new DevicesViewModel();
-
-            var dbContext = new SmartHomeDbContext(); // My DbContext
-
-            var lastSave = dbContext.selectportCOM // My table Name
-                .OrderByDescending(x => x.Id)
-                .FirstOrDefault();
-
-            // If the last Write is null, the database is empty
-
-            if (lastSave != null)
-            {
-                // Use last save as needed
-                int id = lastSave.Id;
-                model.viewPortCOMS.portCOM = lastSave.portCOM;
-            }
-
+            model.viewPortCOMS.portCOM = _deviceManager.GetLastSelectedPortCOM();
 
             return View(model);
-
         }
 
         [HttpPost]
         public IActionResult Devices(DevicesViewModel model)
         {
-
-            var wselectedCOM = model.viewPortCOMS.portCOM;
-
-            DatabaseLocator.Database.selectportCOM.Add(new SelectedPort
-            {
-                portCOM = wselectedCOM,
-            });
-            DatabaseLocator.Database.SaveChanges();
+            string selectedCOM = model.viewPortCOMS.portCOM;
+            _deviceManager.SetSelectedPortCOM(selectedCOM);
 
             _serialPortService.StartAsync(CancellationToken.None);
 
             return View(model);
-
         }
 
         public IActionResult GetCurrentValues()
