@@ -56,12 +56,14 @@ namespace SmartHome_MVC
         [HttpPost]
         public IActionResult Devices(DevicesViewModel model)
         {
+
             string selectedCOM = model.viewPortCOMS.portCOM;
             _deviceManager.SetSelectedPortCOM(selectedCOM);
 
             _serialPortService.StartAsync(CancellationToken.None);
 
             return View(model);
+
         }
 
         public IActionResult GetCurrentValues()

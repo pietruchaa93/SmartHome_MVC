@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 
-public class WeatherService
+public class WeatherService 
 {
     private readonly string apiKey;
 
