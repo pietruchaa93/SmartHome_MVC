@@ -4,12 +4,16 @@ using SmartHome_MVC;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var database = new SmartHomeDbContext();
+database.Database.EnsureCreated();
+DatabaseLocator.Database = database;
 
 // Add services to the container.
 
 builder.Services.AddSingleton<SerialPortService>(); //My service to hosted communication with Serial Port
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<SmartHomeDbContext>();
 
 var app = builder.Build();
 
@@ -27,9 +31,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 
-var database = new SmartHomeDbContext();
-database.Database.EnsureCreated();
-DatabaseLocator.Database = database;
+
 
 
 app.UseRouting();

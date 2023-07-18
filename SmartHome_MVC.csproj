@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Chart.js" Version="3.7.1" />
     <PackageReference Include="Coravel" Version="4.2.1" />
     <PackageReference Include="DotNetty.Common" Version="0.7.5" />
     <PackageReference Include="NDbUnit.SqlLite" Version="1.6.8" />

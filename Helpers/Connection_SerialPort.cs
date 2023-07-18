@@ -3,7 +3,7 @@ using DotNetty.Common.Concurrency;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 
-namespace SmartHome_MVC.Controllers
+namespace SmartHome_MVC
 {
     public class MyScheduledTask : IScheduledTask
     {

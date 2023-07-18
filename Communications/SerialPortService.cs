@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO.Ports;
-using System.Text.Json;
-using Microsoft.Extensions.Hosting;
+﻿using System.IO.Ports;
 using Newtonsoft.Json;
 using SmartHome_Database;
 using SmartHome_Database.Enities;
