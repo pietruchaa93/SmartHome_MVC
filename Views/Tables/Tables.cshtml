@@ -13,7 +13,7 @@
             <div id="calendar1" class="calendar-hidden"></div>
         </td>
         <td style="width: 70%;">
-           <div id="tabelaContainer1" style="max-height: 300px; overflow-y: auto;">
+           <div id="tableContainer" style="max-height: 300px; overflow-y: auto;">
            @await Html.PartialAsync("_TablePartial", Model)
            </div>
 
@@ -134,12 +134,32 @@ function sendSelectedDate(index, selectedDate) {
         },
         success: function () {
             // Success handling
+            sendSelectedTable(index, selectedDate);
         },
         error: function () {
             // Error handling
         }
     });
 }
+
+function sendSelectedTable(index, selectedDate) {
+    $.ajax({
+        url: '@Url.Action("GetData", "Tables")',
+        type: 'GET',
+        data: {
+            selectedDate: selectedDate
+        },
+        success: function (data) {
+            // Success handling
+            $('#tableContainer').html(data);
+        },
+        error: function () {
+            // Error handling
+        }
+    });
+        }
+
+
 </script>
 
 

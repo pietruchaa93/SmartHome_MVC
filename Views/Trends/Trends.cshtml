@@ -1,3 +1,78 @@
 ﻿@{
-    ViewData["Title"] = "Trends";
+    ViewData["Title"] = "Measurement Data";
+}
+
+<h2>Measurement Data</h2>
+
+<canvas id="temperatureChart" width="400" height="200"></canvas>
+<canvas id="button1Chart" width="400" height="200"></canvas>
+<canvas id="button2Chart" width="400" height="200"></canvas>
+<canvas id="analogChart" width="400" height="200"></canvas>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        var timeLabels = @Html.Raw(Json.Serialize(ViewBag.TimeLabels));
+        var temperatureData = @Html.Raw(Json.Serialize(ViewBag.TemperatureData));
+        var button1Data = @Html.Raw(Json.Serialize(ViewBag.Button1Data));
+        var button2Data = @Html.Raw(Json.Serialize(ViewBag.Button2Data));
+        var analogData = @Html.Raw(Json.Serialize(ViewBag.AnalogData));
+
+        var temperatureChart = new Chart(document.getElementById('temperatureChart'), {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'Temperature',
+                    data: temperatureData,
+                    borderColor: 'red',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            }
+        });
+
+        var button1Chart = new Chart(document.getElementById('button1Chart'), {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'Button1',
+                    data: button1Data,
+                    borderColor: 'blue',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            }
+        });
+
+        var button2Chart = new Chart(document.getElementById('button2Chart'), {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'Button2',
+                    data: button2Data,
+                    borderColor: 'green',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            }
+        });
+
+        var analogChart = new Chart(document.getElementById('analogChart'), {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'Analog',
+                    data: analogData,
+                    borderColor: 'orange',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            }
+        });
+    </script>
 }
