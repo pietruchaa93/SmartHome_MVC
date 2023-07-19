@@ -1,0 +1,146 @@
+﻿@model TablesViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+<table style="width: 100%;"> 
+    <tr>
+        <td style="width: 30%;">
+            <div id="calendar1" class="calendar-hidden"></div>
+        </td>
+        <td style="width: 70%;">
+           <div id="tabelaContainer1" style="max-height: 300px; overflow-y: auto;">
+           @await Html.PartialAsync("_TablePartial", Model)
+           </div>
+
+           @*<button style="background-color: #2196F3; width: 100px">Text</button>
+           <button style="background-color: #03A9F4; width: 100px  ">Text</button>
+           <button style="background-color: #007BFF; width: 100px ">Text</button>
+           <button style="background-color: #0D47A1; width: 100px ">Text</button>
+           <button style="background-color: #039BE5; width: 100px ">Text</button>*@
+
+
+        </td>
+    </tr>
+</table>
+
+
+
+@section scripts {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/pl.js"></script>
+
+
+<script>
+$(document).ready(function () {
+    moment.locale('en');
+
+    for (var i = 1; i <= 1; i++) {
+        (function (index) {
+            var calendar = $('#calendar' + index).fullCalendar({
+                // Calendar settings
+                header: {
+                    right: 'prev, today, next'
+                },              
+                defaultView: 'month',
+                firstDay: 1, // Set first day as Monday
+                aspectRatio: 1, // Aspect ratio
+
+                // Date selection handling
+                selectable: true,
+                select: function (start, end) {
+                    var selectedDate = moment(start).format('YYYY-MM-DD');
+                    var selectedShift = $('#shiftSelect' + index).val();
+
+                    // Save the selected date to LocalStorage
+                    localStorage.setItem('selectedDate' + index, selectedDate);
+
+                    // Remove highlighting from all dates
+                    $('#calendar' + index + ' .fc-day').removeClass('selected-day');
+
+                    // Highlight the selected date
+                    highlightSelectedDate(selectedDate, index);
+
+                    // Send the selected date and index to the controller
+                    sendSelectedDate(index, selectedDate, selectedShift);
+                },
+                viewRender: function (view, element) {
+                    // Get the selected date from LocalStorage
+                    var selectedDate = localStorage.getItem('selectedDate' + index);
+
+                    // Remove highlighting from all dates
+                    $('#calendar' + index + ' .fc-day').removeClass('selected-day');
+
+                    // Highlight the selected date
+                    highlightSelectedDate(selectedDate, index);
+                }
+            });
+
+            // Function to highlight the selected date
+            function highlightSelectedDate(selectedDate, index) {
+                if (selectedDate) {
+                    $('#calendar' + index + ' .fc-day[data-date="' + selectedDate + '"]').addClass('selected-day');
+                }
+            }
+
+            // Check if a date is saved in LocalStorage
+            var selectedDate = localStorage.getItem('selectedDate' + index);
+            if (!selectedDate) {
+                // If not, set today's date
+                selectedDate = moment().format('YYYY-MM-DD');
+                localStorage.setItem('selectedDate' + index, selectedDate);
+            }
+
+            // Highlight the selected date
+            highlightSelectedDate(selectedDate, index);
+
+            // Change event for the shift select
+            $('#shiftSelect' + index).change(function () {
+                var selectedShift = $(this).val();
+
+                // Get the selected date from LocalStorage
+                var selectedDate = localStorage.getItem('selectedDate' + index);
+
+                // Highlight the selected date
+                highlightSelectedDate(selectedDate, index);
+
+                // Send the selected date and shift to the controller
+                sendSelectedDate(index, selectedDate, selectedShift);
+            });
+
+            // Before leaving the page event
+            $(window).on('beforeunload', function () {
+                // Remove the saved date from LocalStorage
+                localStorage.removeItem('selectedDate' + index);
+            });
+        })(i);
+    }
+});
+
+// Function to send the selected date to the controller
+function sendSelectedDate(index, selectedDate) {
+    $.ajax({
+        url: '@Url.Action("SetSelectedDate", "Tables")',
+        type: 'POST',
+        data: {
+            index: index,
+            selectedDate: selectedDate,
+        },
+        success: function () {
+            // Success handling
+        },
+        error: function () {
+            // Error handling
+        }
+    });
+}
+</script>
+
+
+}

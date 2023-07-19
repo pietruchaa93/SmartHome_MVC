@@ -34,9 +34,6 @@ namespace SmartHome_MVC
         }
 
 
-
-
-
         public IActionResult Privacy()
         {
             return View();

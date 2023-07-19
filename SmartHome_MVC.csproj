@@ -10,13 +10,13 @@
     <PackageReference Include="Chart.js" Version="3.7.1" />
     <PackageReference Include="Coravel" Version="4.2.1" />
     <PackageReference Include="DotNetty.Common" Version="0.7.5" />
+    <PackageReference Include="jQuery.Fullcalendar" Version="3.9.0" />
     <PackageReference Include="NDbUnit.SqlLite" Version="1.6.8" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Content\Images\" />
-    <Folder Include="Prototype_HTML\" />
   </ItemGroup>
 
   <ItemGroup>

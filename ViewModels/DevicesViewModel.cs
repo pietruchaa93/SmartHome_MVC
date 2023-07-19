@@ -4,9 +4,12 @@ namespace SmartHome_MVC
 {
     public class DevicesViewModel
     {
-        public PortCOMS viewPortCOMS { get; set; } 
+        public List<string> listPortCOMS = new List<string> { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10" };
+
+
         public ReadValues viewReadValues { get; set; }
         public ReadValuesFromArduino viewReadValuesFromArduino { get; set; }
+
 
         public double currentTemperature { get; set; }
         public int currentButton1 { get; set; }
@@ -16,9 +19,7 @@ namespace SmartHome_MVC
 
         public DevicesViewModel()
         {
-            viewPortCOMS = new PortCOMS();
             viewReadValues = new ReadValues();  
-
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿
+@model DevicesViewModel 
 
 @{
     ViewData["Title"] = "Devices";
@@ -19,22 +20,17 @@
 </p>
 
 
-@model DevicesViewModel 
-@using (Html.BeginForm("Devices", "Devices", FormMethod.Post))
-{
-    <label for="portCOM">Choose port COM:</label>
-    <select name="viewPortCOMS.portCOM" id="portCOM">
-        @foreach (var port in Model.viewPortCOMS.AvailablePorts)
+
+    <label for="portCOM">Choose port:</label>
+    <select id="portCOM" onchange="sendSelectedPortCOM()">
+        @foreach (var port in Model.listPortCOMS)
         {
             <option value="@port">@port</option>
         }
     </select>
-
-    <input type="submit" value="Send" />
-
+   
     <br /><br />
 
-    <p>Selected port: @Model.viewPortCOMS.portCOM</p>
       <br /><br />
       <br /><br />
 
@@ -45,7 +41,7 @@
 <p>Button 2: <span id="button2"></span></p>
 <p>Value Analog: <span id="analog"></span></p>
  
-}
+
 
 
 </div>
@@ -70,4 +66,25 @@
             }
         });
     }, 1000);
+
+
+    // Function for sending the selected Port to the controller
+function sendSelectedPortCOM() {
+    var selectedPortCOM = $('#portCOM').val();
+
+    $.ajax({
+        url: '@Url.Action("SetSelectedPortCOM", "Devices")',
+        type: 'POST',
+        data: {
+            selectedPortCOM: selectedPortCOM
+        },
+        success: function () {
+            // Success service
+        },
+        error: function () {
+            // Error service
+        }
+    });
+}
+
 </script>

@@ -16,3 +16,91 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.rounded-button {
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    background-color: #03A9F4;
+    color: white;
+    cursor: pointer;
+}
+
+    .rounded-button:hover {
+        background-color: #03A9F4;
+    }
+
+[id^="calendar"] {
+    width: 250px; /* Width calendar */
+    height: 250px; /* Height calendar */
+}
+
+    [id^="calendar"] .fc-view {
+        height: 100% !important; 
+    }
+
+        [id^="calendar"] .fc-view > table {
+            height: 100% !important; 
+        }
+
+    [id^="calendar"] .fc-body .fc-row {
+        height: calc(100% / 6) !important; 
+    }
+
+    [id^="calendar"] .fc-basic-view .fc-body .fc-row {
+        min-height: 1em !important;
+    }
+
+    [id^="calendar"] .fc-day-grid-container.fc-scroller {
+        height: auto !important;
+        overflow-y: auto;
+    }
+
+    [id^="calendar"] .fc-toolbar h2 {
+        font-size: 12px;
+        margin: 0;
+        text-align: left;
+    }
+
+    [id^="calendar"] .fc-prev-button,
+    [id^="calendar"] .fc-next-button,
+    [id^="calendar"] .fc-today-button {
+        font-size: 10px;
+        margin: 0;
+    }
+
+.selected-day {
+    background-color: #03A9F4;
+}
+
+.table_style {
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px thin silver;
+    font-size: 12px;
+    padding: 0px;
+}
+
+    .table_style th {
+        background-color: #03A9F4;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        border: 1px thin silver;
+    }
+
+    .table_style th,
+    .table_style td {
+        padding: 2px;
+        text-align: center;
+    }
+
+        .table_style td button {
+            padding: 0;
+        }
+
+    .table_style tr:nth-child(even) {
+        background-color: rgb(3, 169, 244, 0.40);
+    }

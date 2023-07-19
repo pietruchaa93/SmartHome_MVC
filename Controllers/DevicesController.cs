@@ -1,39 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartHome_Database;
+using SmartHome_MVC.Models;
 
 namespace SmartHome_MVC.Controllers
 {
     public class DevicesController : Controller
     {
-        private readonly DevicesManager _deviceManager;
         private readonly SerialPortService _serialPortService;
 
         public DevicesController(SerialPortService serialPortService) 
         {
             _serialPortService = serialPortService;
-            _deviceManager = new DevicesManager();
         }
 
         [HttpGet]
         public IActionResult Devices()
         {
             DevicesViewModel model = new DevicesViewModel();
-            model.viewPortCOMS.portCOM = _deviceManager.GetLastSelectedPortCOM();
 
             return View(model);
         }
 
+
         [HttpPost]
-        public IActionResult Devices(DevicesViewModel model)
+        public ActionResult SetSelectedPortCOM(string selectedPortCOM)
         {
-
-            string selectedCOM = model.viewPortCOMS.portCOM;
-            _deviceManager.SetSelectedPortCOM(selectedCOM);
-
+            // Przypisanie wybranej daty do zmiennej selectedZmianaModel
+            GlobalValues.selectedPortCOM = selectedPortCOM;
             _serialPortService.StartAsync(CancellationToken.None);
-
-            return View(model);
-
+            return Json(new { success = true });
         }
 
         public IActionResult GetCurrentValues()

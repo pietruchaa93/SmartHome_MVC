@@ -1,0 +1,23 @@
+﻿<table class="table_style">
+<tr>
+    <th>Temperature</th>
+    <th>Button 1</th>
+    <th>Button 2</th>
+    <th>Analog Value</th>
+    <th>Date Time</th>
+    <th>Wykres</th>
+</tr>
+@foreach (var item in Model.ReadValuesFromArduinoViewModel)
+{
+    <tr>
+        <td>@item.temperature</td>
+        <td>@item.button1</td>
+        <td>@item.button2</td>
+        <td>@item.analog</td>
+        <td>@item.DateTime</td>
+        <td>
+            <button type="button" class="rounded-button" style="padding: 0px" onclick="location.href='@Url.Action("Chart", "Tables", new { id = item.Id })'">>></button>
+        </td>
+    </tr>
+}
+</table>
